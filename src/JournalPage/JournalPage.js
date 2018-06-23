@@ -16,6 +16,7 @@ class JournalPage extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.history);
         if(!auth.currentUser) {
             return this.props.history.push('/');
         }
@@ -33,7 +34,10 @@ class JournalPage extends Component {
 
     addEntry = (e) => {
         e.preventDefault();
-        alert('Implement addEntry');
+
+        database.ref(`/users/${auth.currentUser.uid}`).push(this.state.entryInput)
+
+
         this.setState(() => {
             return {
                 entryInput: ''
