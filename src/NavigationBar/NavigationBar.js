@@ -10,15 +10,19 @@ class NavigationBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false
+            isLoggedIn: false,
+            userName: ''
         }
     }
 
     componentDidMount() {
         auth.onAuthStateChanged((user) => {
-            console.log(user ? user : 'no user data')
+            console.log(user ? user.displayName : 'no user data')
             this.setState(() => {
-                return { isLoggedIn: user ? true : false };
+                return {
+                    isLoggedIn: user ? true : false,
+                    userName: user ? user.displayName : ''
+                };
             });
         });
     }
@@ -37,7 +41,7 @@ class NavigationBar extends Component {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/journal">Journal</Link></li>
                 {!this.state.isLoggedIn && <li><a href="#signin" onClick={this.signIn}>Sign In</a></li>}
-                {this.state.isLoggedIn && <li><a href="#signout" onClick={this.signOut}>Sign Out</a></li>}
+                {this.state.isLoggedIn && <li><a href="#signout" onClick={this.signOut}>Welcome {this.state.userName}</a></li>}
             </ul>
         );
     }

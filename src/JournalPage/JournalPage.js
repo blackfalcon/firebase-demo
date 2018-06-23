@@ -16,12 +16,12 @@ class JournalPage extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.history);
+        //console.log(this.props.history);
         if(!auth.currentUser) {
             return this.props.history.push('/');
         }
         database.ref(`/users/${auth.currentUser.uid}`).on('value', (snapshot) => {
-            console.log(snapshot)
+            //console.log(snapshot)
             this.setState(() => {
                 return {
                     journalEntries: snapshot.val() || {}
@@ -42,7 +42,9 @@ class JournalPage extends Component {
 
     addEntry = (e) => {
         e.preventDefault();
+
         database.ref(`/users/${auth.currentUser.uid}`).push(this.state.entryInput)
+
         this.setState(() => {
             return {
                 entryInput: ''
@@ -51,6 +53,8 @@ class JournalPage extends Component {
     }
 
     render() {
+        console.log(this.state.journalEntries);
+
         return (
             <div>
                 <h1>My Journal</h1>
