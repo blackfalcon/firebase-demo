@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
 import JournalEntry from './JournalEntry';
 import './JournalPage.css';
+
+const auth = firebase.auth();
+const database = firebase.database();
 
 class JournalPage extends Component {
     constructor(props) {
@@ -8,6 +12,12 @@ class JournalPage extends Component {
         this.state = {
             journalEntries: {},
             entryInput: ''
+        }
+    }
+
+    componentDidMount() {
+        if(!auth.currentUser) {
+            return this.props.history.push('/');
         }
     }
 
